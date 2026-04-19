@@ -1,33 +1,35 @@
 {
-  "name": "Spring Petclinic Microservices",
-  // Java Development Container Images https://mcr.microsoft.com/en-us/product/devcontainers/java/tags
-  "image": "mcr.microsoft.com/devcontainers/java:17-bullseye",
-  // Features list https://containers.dev/features
+  "name": "PetClinic Microservices",
+  "image": "mcr.microsoft.com/devcontainers/java:17",
   "features": {
     "ghcr.io/devcontainers/features/java:1": {
       "installMaven": "true",
       "installGradle": "false"
     },
-    "ghcr.io/devcontainers/features/azure-cli:1":{}, // Install Azure CLI
-    "ghcr.io/devcontainers/features/docker-in-docker:2":{}, // install docker
+    "ghcr.io/devcontainers/features/docker-in-docker:2": {
+      "moby": false
+    }
+  },
+  "forwardPorts": [8080, 8761, 8888, 9090, 9411, 3030, 9091],
+  "portsAttributes": {
+    "8080": { "label": "PetClinic API Gateway", "onAutoForward": "openBrowser" },
+    "8761": { "label": "Eureka Discovery" },
+    "8888": { "label": "Config Server" },
+    "9090": { "label": "Spring Boot Admin" },
+    "9411": { "label": "Zipkin Tracing" },
+    "3030": { "label": "Grafana" },
+    "9091": { "label": "Prometheus" }
   },
   "customizations": {
-    // Configure properties specific to VScode
     "vscode": {
-      "settings": {
-        // VSCode settings https://github.com/redhat-developer/vscode-java/blob/master/README.md
-        "java.server.launchMode": "Standard"
-      },
-      "extensions":[
+      "extensions": [
         "vscjava.vscode-java-pack",
-        "vscjava.vscode-maven",
-        "github.vscode-github-actions",
-        "github.vscode-pull-request-github",
-        "redhat.vscode-xml",
-        "vmware.vscode-boot-dev-pack",
-        "mhutchie.git-graph"
+        "vscjava.vscode-maven"
       ]
-    },
+    }
   },
-  "forwardPorts": [8080, 8888, 8761]
+  "hostRequirements": {
+    "cpus": 4,
+    "memory": "8gb"
+  }
 }
